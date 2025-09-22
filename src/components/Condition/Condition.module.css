@@ -2,4 +2,6 @@
   margin: 0 0 5px;
   padding: 5px;
   border: dotted 1px black;
+  display: flex;
+  justify-content: space-between;
 }

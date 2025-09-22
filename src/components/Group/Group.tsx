@@ -1,22 +1,25 @@
 import { useState, type JSX } from 'react';
-import { GroupOperators, type GroupOperatorType } from './GroupTypes';
+import { GroupOperators, type GroupOperatorType, type GroupProps } from './GroupTypes';
 import classes from './Group.module.css';
 import Condition from '../Condition/Condition';
-export default function Group() {
+import { useFilterBuilderContext } from '../../context/FilterBuilderContext';
+
+export default function Group(props: GroupProps) {
+  const { groups, id } = props;
   const [operator, setOperator] = useState<GroupOperatorType>(GroupOperators.And);
-  const [childGroups, setChildGroups] = useState<JSX.Element[]>([]);
   const [condtions, setConditions] = useState<JSX.Element[]>([]);
+  const { addGroup } = useFilterBuilderContext();
 
   const render = () => {
     return (
-      <div className={classes.group}>
+      <div className={classes.group} key={id}>
         <div className={classes.header}>
           <select value={operator} onChange={changeGroupOperator}>
             <option value={GroupOperators.And}>AND</option>
             <option value={GroupOperators.Or}>OR</option>
           </select>
 
-          <button onClick={addGroup}>Add Group</button>
+          <button onClick={handleAddGroup}>Add Group</button>
         </div>
 
         <div>
@@ -24,10 +27,15 @@ export default function Group() {
             <button className={classes.addCondtionButton} onClick={addCondition}>
               Add Conditon
             </button>
-
             {condtions}
           </div>
-          {childGroups}
+          {groups.map((childGroup) => (
+            <Group
+              id={childGroup.id}
+              groups={childGroup.groups}
+              conditions={childGroup.conditions}
+            />
+          ))}
         </div>
       </div>
     );
@@ -36,15 +44,15 @@ export default function Group() {
   const changeGroupOperator = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
-    setOperator(value);
+    setOperator(value as GroupOperatorType);
   };
 
-  const addGroup = () => {
-    setChildGroups((prev) => [...prev, <Group key={prev.length} />]);
+  const handleAddGroup = () => {
+    addGroup(id);
   };
 
   const addCondition = () => {
-    setConditions((prev) => [...prev, <Condition key={prev.length} />]);
+    setConditions((prev) => [...prev, <Condition index={prev.length} />]);
   };
 
   return render();
