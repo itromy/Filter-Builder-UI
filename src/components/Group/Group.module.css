@@ -1,0 +1,14 @@
+.group {
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.header {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.conditions {
+  margin-bottom: 10px;
+}
