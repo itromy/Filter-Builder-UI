@@ -9,6 +9,7 @@ export default function FilterBuilder() {
       {data.map((group, index) => (
         <Group
           id={group.id}
+          operator={group.operator}
           groups={group.groups}
           conditions={group.conditions}
           disableDelete={index === 0}

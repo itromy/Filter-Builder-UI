@@ -8,6 +8,7 @@ export interface FilterBuilderContextType {
   data: GroupType[];
   addGroup: (parentId: string) => void;
   deleteGroup: (deletedGroupId: string) => void;
+  updateGroup: (id: string, updates: Partial<GroupType>) => void;
   addCondition: (parentId: string) => void;
   deleteCondition: (parentId: string, id: string) => void;
   updateCondition: (parentId: string, id: string, updates: Partial<ConditionType>) => void;

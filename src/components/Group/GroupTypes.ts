@@ -11,6 +11,7 @@ export type GroupType = {
   id: string;
   groups: GroupType[];
   conditions: ConditionProps[];
+  operator: GroupOperatorType;
 };
 
 export type GroupProps = GroupType & {

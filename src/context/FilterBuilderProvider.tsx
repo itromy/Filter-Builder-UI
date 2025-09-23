@@ -4,6 +4,7 @@ import {
   getEmptyGroup,
   addGroup as addGroupController,
   deleteGroup as deleteGroupController,
+  updateGroup as updateGroupController,
 } from '../controller/groups';
 import {
   addCondition as addConditionController,
@@ -31,6 +32,10 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
     setData((prev) => deleteGroupController(id, prev));
   };
 
+  const updateGroup = (id: string, updates: Partial<GroupType>) => {
+    setData((prev) => updateGroupController(id, updates, prev));
+  };
+
   const addCondition = (parentId: string) => {
     setData((prev) => addConditionController(parentId, prev));
   };
@@ -52,6 +57,7 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
         data,
         addGroup,
         deleteGroup,
+        updateGroup,
         addCondition,
         deleteCondition,
         updateCondition,

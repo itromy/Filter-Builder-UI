@@ -7,7 +7,7 @@ import Condition from '../Condition/Condition';
 export default function Group(props: GroupProps) {
   const { groups, id, conditions, disableDelete } = props;
   const [operator, setOperator] = useState<GroupOperatorType>(GroupOperators.And);
-  const { addGroup, deleteGroup, addCondition } = useFilterBuilderContext();
+  const { addGroup, deleteGroup, updateGroup, addCondition } = useFilterBuilderContext();
 
   const render = () => {
     return (
@@ -36,6 +36,7 @@ export default function Group(props: GroupProps) {
           {groups.map((childGroup) => (
             <Group
               id={childGroup.id}
+              operator={childGroup.operator}
               groups={childGroup.groups}
               conditions={childGroup.conditions}
             />
@@ -53,6 +54,9 @@ export default function Group(props: GroupProps) {
     const { value } = e.target;
 
     setOperator(value as GroupOperatorType);
+    updateGroup(id, {
+      operator: value as GroupOperatorType,
+    });
   };
 
   const handleAddGroup = () => {
