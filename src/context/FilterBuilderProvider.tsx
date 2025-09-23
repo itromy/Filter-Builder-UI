@@ -9,7 +9,9 @@ import {
   addCondition as addConditionController,
   deleteCondition as deleteConditionController,
 } from '../controller/conditions';
-
+import fields from '../config/fields.json';
+import operators from '../config/operators.json';
+import type { Operators } from '../models/Operator';
 import { FilterBuilderContext } from './FilterBuilderContext';
 
 const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
@@ -31,9 +33,20 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
     setData((prev) => deleteConditionController(parentId, id, prev));
   };
 
+  // TODO: solve it better
+  const usedOperators = operators as Operators;
+
   return (
     <FilterBuilderContext.Provider
-      value={{ data, addGroup, deleteGroup, addCondition, deleteCondition }}
+      value={{
+        data,
+        addGroup,
+        deleteGroup,
+        addCondition,
+        deleteCondition,
+        fields,
+        operators: usedOperators,
+      }}
     >
       {children}
     </FilterBuilderContext.Provider>

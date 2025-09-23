@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Name",
+    "value": "name",
+    "type": "string"
+  },
+  {
+    "label": "Age",
+    "value": "age",
+    "type": "number"
+  },
+  {
+    "label": "Birthday",
+    "value": "birthday",
+    "type": "date"
+  },
+  {
+    "label": "Active",
+    "value": "isActive",
+    "type": "boolean"
+  }
+]
