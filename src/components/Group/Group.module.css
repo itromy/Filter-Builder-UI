@@ -1,6 +1,7 @@
 .group {
   padding: 20px;
   border: 1px solid black;
+  margin-bottom: 5px;
 }
 
 .header {
@@ -13,6 +14,10 @@
   margin-bottom: 10px;
 }
 
-.addCondtionButton {
+.addConditionButton {
   margin-bottom: 10px;
+}
+
+.addGroupButton {
+  margin-top: 10px;
 }

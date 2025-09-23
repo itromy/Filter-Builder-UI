@@ -1,17 +1,25 @@
+import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import classes from './Condition.module.css';
 import { type ConditionProps } from './ConditionTypes';
 
 export default function Condition(props: ConditionProps) {
-  const { index } = props;
+  const { id, parentId } = props;
+  const { deleteCondition } = useFilterBuilderContext();
 
-  function render() {
+  const render = () => {
     return (
-      <div key={index} className={classes.condition}>
-        Condition {index + 1}
-        <button className={classes.deleteButton}>Delete</button>
+      <div key={id} className={classes.condition}>
+        Condition
+        <button className={classes.deleteButton} onClick={handleDelelte}>
+          Delete
+        </button>
       </div>
     );
-  }
+  };
+
+  const handleDelelte = () => {
+    deleteCondition(parentId, id);
+  };
 
   return render();
 }

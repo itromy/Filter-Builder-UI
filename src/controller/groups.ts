@@ -14,9 +14,20 @@ export const addGroup = (parentId: string, data: GroupType[]): GroupType[] => {
     if (group.id === parentId) {
       newGroup.groups.push(getEmptyGroup());
     } else {
+      // child groups
       newGroup.groups = addGroup(parentId, newGroup.groups);
     }
 
     return newGroup;
   });
+};
+
+export const deleteGroup = (groupId: string, data: GroupType[]): GroupType[] => {
+  return data
+    .filter((group) => group.id !== groupId) // first level
+    .map((group) => ({
+      // child groups
+      ...group,
+      groups: deleteGroup(groupId, group.groups),
+    }));
 };

@@ -3,10 +3,7 @@ import { FilterBuilderContext, type FilterBuilderContextType } from './FilterBui
 
 export const useFilterBuilderContext = (): FilterBuilderContextType => {
   const context = useContext(FilterBuilderContext);
-
-  if (!context) {
+  if (!context)
     throw new Error('useFilterBuilderContext must be used within a FilterBuilderProvider');
-  }
-
   return context;
 };

@@ -1,4 +1,4 @@
-import { useFilterBuilderContext } from '../../context/FilterBuilderContext';
+import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Group from '../Group/Group';
 
 export default function FilterBuilder() {
@@ -6,8 +6,13 @@ export default function FilterBuilder() {
 
   return (
     <div>
-      {data.map((group) => (
-        <Group id={group.id} groups={group.groups} />
+      {data.map((group, index) => (
+        <Group
+          id={group.id}
+          groups={group.groups}
+          conditions={group.conditions}
+          disableDelete={index === 0}
+        />
       ))}
     </div>
   );

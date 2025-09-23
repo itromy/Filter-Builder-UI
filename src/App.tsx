@@ -1,5 +1,5 @@
 import FilterBuilder from './components/FilterBuilder/FilterBuilder';
-import { FilterBuilderProvider } from './context/FilterBuilderContext';
+import FilterBuilderProvider from './context/FilterBuilderProvider';
 
 function App() {
   return (

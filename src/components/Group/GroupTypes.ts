@@ -13,4 +13,6 @@ export type GroupType = {
   conditions: ConditionProps[];
 };
 
-export type GroupProps = GroupType;
+export type GroupProps = GroupType & {
+  disableDelete?: boolean;
+};

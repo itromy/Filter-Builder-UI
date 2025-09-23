@@ -1,3 +1,6 @@
 export type ConditionProps = {
-  index: number;
+  id: string;
+  parentId: string;
 };
+
+export type ConditionType = ConditionProps;

@@ -1,14 +1,13 @@
-import { useState, type JSX } from 'react';
+import { useState } from 'react';
 import { GroupOperators, type GroupOperatorType, type GroupProps } from './GroupTypes';
 import classes from './Group.module.css';
+import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Condition from '../Condition/Condition';
-import { useFilterBuilderContext } from '../../context/FilterBuilderContext';
 
 export default function Group(props: GroupProps) {
-  const { groups, id } = props;
+  const { groups, id, conditions, disableDelete } = props;
   const [operator, setOperator] = useState<GroupOperatorType>(GroupOperators.And);
-  const [condtions, setConditions] = useState<JSX.Element[]>([]);
-  const { addGroup } = useFilterBuilderContext();
+  const { addGroup, deleteGroup, addCondition } = useFilterBuilderContext();
 
   const render = () => {
     return (
@@ -18,16 +17,21 @@ export default function Group(props: GroupProps) {
             <option value={GroupOperators.And}>AND</option>
             <option value={GroupOperators.Or}>OR</option>
           </select>
-
-          <button onClick={handleAddGroup}>Add Group</button>
+          <button onClick={handleDeleteGroup} disabled={disableDelete}>
+            Delete
+          </button>
         </div>
 
         <div>
           <div className={classes.conditions}>
-            <button className={classes.addCondtionButton} onClick={addCondition}>
+            <button className={classes.addConditionButton} onClick={handleAddCondition}>
               Add Conditon
             </button>
-            {condtions}
+            {conditions.length ? (
+              conditions.map((condition) => <Condition id={condition.id} parentId={id} />)
+            ) : (
+              <p>No Conditions yet</p>
+            )}
           </div>
           {groups.map((childGroup) => (
             <Group
@@ -36,6 +40,10 @@ export default function Group(props: GroupProps) {
               conditions={childGroup.conditions}
             />
           ))}
+
+          <button className={classes.addGroupButton} onClick={handleAddGroup}>
+            Add Group
+          </button>
         </div>
       </div>
     );
@@ -51,8 +59,12 @@ export default function Group(props: GroupProps) {
     addGroup(id);
   };
 
-  const addCondition = () => {
-    setConditions((prev) => [...prev, <Condition index={prev.length} />]);
+  const handleDeleteGroup = () => {
+    deleteGroup(id);
+  };
+
+  const handleAddCondition = () => {
+    addCondition(id);
   };
 
   return render();
