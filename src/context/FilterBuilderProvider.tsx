@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { GroupType } from '../components/Group/GroupTypes';
 import {
   getEmptyGroup,
@@ -8,14 +8,20 @@ import {
 import {
   addCondition as addConditionController,
   deleteCondition as deleteConditionController,
+  updateCondition as updateConditionController,
 } from '../controller/conditions';
 import fields from '../config/fields.json';
 import operators from '../config/operators.json';
 import type { Operators } from '../models/Operator';
 import { FilterBuilderContext } from './FilterBuilderContext';
+import type { ConditionType } from '../components/Condition/ConditionTypes';
 
 const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<GroupType[]>([getEmptyGroup()]);
+
+  useEffect(() => {
+    console.log('data', data);
+  }, [data]);
 
   const addGroup = (parentId: string) => {
     setData((prev) => addGroupController(parentId, prev));
@@ -33,6 +39,10 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
     setData((prev) => deleteConditionController(parentId, id, prev));
   };
 
+  const updateCondition = (parentId: string, id: string, updates: Partial<ConditionType>) => {
+    setData((prev) => updateConditionController(parentId, id, updates, prev));
+  };
+
   // TODO: solve it better
   const usedOperators = operators as Operators;
 
@@ -44,6 +54,7 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
         deleteGroup,
         addCondition,
         deleteCondition,
+        updateCondition,
         fields,
         operators: usedOperators,
       }}

@@ -8,5 +8,5 @@ export type ConditionType = {
   parentId: string;
   field: string;
   operator: string;
-  values: number[] | string[] | Date[];
+  value: number | string | Date | boolean;
 };

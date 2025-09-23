@@ -7,7 +7,7 @@ export const getEmptyCondition = (parentId: string): ConditionType => ({
   parentId,
   field: '',
   operator: '',
-  values: [],
+  value: '',
 });
 
 export const addCondition = (parentId: string, data: GroupType[]): GroupType[] => {
@@ -42,6 +42,29 @@ export const deleteCondition = (
     return {
       ...group,
       groups: deleteCondition(parentId, conditionId, group.groups),
+    };
+  });
+};
+
+export const updateCondition = (
+  parentId: string,
+  conditionId: string,
+  updates: Partial<ConditionType>,
+  data: GroupType[]
+): GroupType[] => {
+  return data.map((group) => {
+    if (group.id === parentId) {
+      return {
+        ...group,
+        conditions: group.conditions.map((condition) =>
+          condition.id === conditionId ? { ...condition, ...updates } : condition
+        ),
+      };
+    }
+
+    return {
+      ...group,
+      groups: updateCondition(parentId, conditionId, updates, group.groups),
     };
   });
 };

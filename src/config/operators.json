@@ -1,6 +1,6 @@
 {
   "string": ["equals", "not_equals", "contains", "starts_with"],
-  "number": ["equals", "not_equals", "greater_than", "less_than", "between"],
+  "number": ["equals", "not_equals", "greater_than", "less_than"],
   "date": ["before", "after", "on"],
   "boolean": ["is_true", "is_false"]
 }
