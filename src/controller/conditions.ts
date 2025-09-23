@@ -5,6 +5,9 @@ import type { GroupType } from '../components/Group/GroupTypes';
 export const getEmptyCondition = (parentId: string): ConditionType => ({
   id: uuid(),
   parentId,
+  field: '',
+  operator: '',
+  values: [],
 });
 
 export const addCondition = (parentId: string, data: GroupType[]): GroupType[] => {
