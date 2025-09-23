@@ -1,4 +1,4 @@
-import type { ConditionProps } from '../Condition/ConditionTypes';
+import type { ConditionType } from '../Condition/ConditionTypes';
 
 export type GroupOperatorType = `${GroupOperators}`;
 
@@ -10,7 +10,7 @@ export enum GroupOperators {
 export type GroupType = {
   id: string;
   groups: GroupType[];
-  conditions: ConditionProps[];
+  conditions: ConditionType[];
   operator: GroupOperatorType;
 };
 
