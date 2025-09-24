@@ -1,3 +1,11 @@
+.outer {
+  padding: 15px;
+}
+
+.left {
+  margin-bottom: 20px;
+}
+
 @media screen and (min-width: 1000px) {
   .filterBuilder {
     display: flex;
