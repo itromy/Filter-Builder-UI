@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type JSX } from 'react';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import classes from './Condition.module.css';
 import { type ConditionType } from './ConditionTypes';
@@ -11,7 +11,6 @@ export default function Condition({ condition }: { condition: ConditionType }) {
   useEffect(() => {
     const prevCondition = prevConditionRef.current;
 
-    // only trigger change when it really changed (avoid loop)
     if (
       !prevCondition ||
       prevCondition.field !== currentCondition.field ||
@@ -24,14 +23,16 @@ export default function Condition({ condition }: { condition: ConditionType }) {
     }
 
     prevConditionRef.current = currentCondition;
-  });
+  }, [currentCondition, updateCondition]);
 
   const render = () => {
     return (
       <div key={currentCondition.id} className={classes.condition}>
-        {renderField()}
-        {renderOperator()}
-        {renderValueFields()}
+        <div className={classes.fieldsWrapper}>
+          {renderField()}
+          {renderOperator()}
+          {renderValueFields()}
+        </div>
         <button className={classes.deleteButton} onClick={handleDelete}>
           Delete
         </button>
@@ -41,7 +42,7 @@ export default function Condition({ condition }: { condition: ConditionType }) {
 
   const renderField = () => {
     return (
-      <label>
+      <label className={classes.field}>
         Field
         <select value={currentCondition.field} onChange={handleChangeField}>
           <option value="">Choose</option>
@@ -60,7 +61,7 @@ export default function Condition({ condition }: { condition: ConditionType }) {
     const availableOperators = getOperatorsForField(currentCondition.field);
 
     return (
-      <label>
+      <label className={classes.field}>
         Operator
         <select
           disabled={isDisabled}
@@ -80,53 +81,62 @@ export default function Condition({ condition }: { condition: ConditionType }) {
 
   const renderValueFields = () => {
     const fieldObj = fields.find((f) => f.value === currentCondition.field);
-    if (!fieldObj) return null;
 
-    switch (fieldObj.type) {
-      case 'string':
-        return (
-          <input
-            type="text"
-            value={(currentCondition.value as string) || ''}
-            onChange={(e) => handleValueChange(e.target.value)}
-          />
-        );
-      case 'number':
-        return (
-          <input
-            type="number"
-            value={(currentCondition.value as number) || ''}
-            onChange={(e) => handleValueChange(Number(e.target.value))}
-          />
-        );
-      case 'date':
-        return (
-          <input
-            type="date"
-            value={(currentCondition.value as string) || ''}
-            onChange={(e) => handleValueChange(e.target.value)}
-          />
-        );
-      case 'boolean':
-        return (
-          <select
-            value={
-              currentCondition.value === true
-                ? 'true'
-                : currentCondition.value === false
-                  ? 'false'
-                  : ''
-            }
-            onChange={(e) => handleValueChange(e.target.value === 'true')}
-          >
-            <option value="">Choose</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        );
-      default:
-        return null;
+    let input: JSX.Element = <input type="text" value="" disabled />;
+
+    if (fieldObj && currentCondition.operator) {
+      switch (fieldObj.type) {
+        case 'string':
+          input = (
+            <input
+              type="text"
+              value={(currentCondition.value as string) || ''}
+              onChange={(e) => handleValueChange(e.target.value)}
+            />
+          );
+          break;
+        case 'number':
+          input = (
+            <input
+              type="number"
+              value={(currentCondition.value as number) || ''}
+              onChange={(e) => handleValueChange(Number(e.target.value))}
+            />
+          );
+          break;
+        case 'date':
+          input = (
+            <input
+              type="date"
+              value={(currentCondition.value as string) || ''}
+              onChange={(e) => handleValueChange(e.target.value)}
+            />
+          );
+          break;
+        case 'boolean':
+          input = (
+            <select
+              value={
+                currentCondition.value === true
+                  ? 'true'
+                  : currentCondition.value === false
+                    ? 'false'
+                    : ''
+              }
+              onChange={(e) => handleValueChange(e.target.value === 'true')}
+            >
+              <option value="">Choose</option>
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          );
+          break;
+        default:
+          input = <input type="text" value="" disabled />;
+      }
     }
+
+    return <label className={classes.field}>Value: {input}</label>;
   };
 
   const getOperatorsForField = (field: string): string[] => {
@@ -143,6 +153,9 @@ export default function Condition({ condition }: { condition: ConditionType }) {
     setCurrentCondition({
       ...currentCondition,
       field: event.target.value,
+      // clear following fields
+      value: '',
+      operator: '',
     });
   };
 
