@@ -44,9 +44,6 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
     setData((prev) => updateConditionController(parentId, id, updates, prev));
   };
 
-  // TODO: solve it better
-  const usedOperators = operators as Operators;
-
   return (
     <FilterBuilderContext.Provider
       value={{
@@ -59,7 +56,7 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
         deleteCondition,
         updateCondition,
         fields,
-        operators: usedOperators,
+        operators: operators as Operators,
       }}
     >
       {children}
