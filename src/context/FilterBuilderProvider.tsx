@@ -13,7 +13,7 @@ import {
 } from '../controller/conditions';
 import fields from '../config/fields.json';
 import operators from '../config/operators.json';
-import type { Operators } from '../models/Operator';
+import type { Operators } from '../models/ConfigTypes';
 import { FilterBuilderContext } from './FilterBuilderContext';
 import type { ConditionType } from '../components/Condition/ConditionTypes';
 

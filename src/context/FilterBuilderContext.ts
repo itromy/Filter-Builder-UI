@@ -1,7 +1,6 @@
 import { createContext } from 'react';
 import type { GroupType } from '../components/Group/GroupTypes';
-import type { Field } from '../models/Field';
-import type { Operators } from '../models/Operator';
+import type { Operators, Field } from '../models/ConfigTypes';
 import type { ConditionType } from '../components/Condition/ConditionTypes';
 
 export interface FilterBuilderContextType {
