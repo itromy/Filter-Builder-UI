@@ -13,7 +13,6 @@
 
   .right > *,
   .left > * {
-    heigh: 100%;
     width: 100%;
   }
 }
