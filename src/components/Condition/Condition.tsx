@@ -157,9 +157,7 @@ export default function Condition(props: ConditionProps) {
     });
   };
 
-  const handleDelete = () => {
-    deleteCondition(parentId, id);
-  };
+  const handleDelete = () => deleteCondition(parentId, id);
 
   const handleValueChange = (value: string | Date | boolean | number) => {
     setCondition({

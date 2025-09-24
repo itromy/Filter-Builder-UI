@@ -11,42 +11,80 @@ export default function Group(props: GroupProps) {
 
   const render = () => {
     return (
-      <div className={classes.group} key={id}>
-        <div className={classes.header}>
-          <select value={operator} onChange={changeGroupOperator}>
-            <option value={GroupOperators.And}>AND</option>
-            <option value={GroupOperators.Or}>OR</option>
-          </select>
-          <button onClick={handleDeleteGroup} disabled={disableDelete}>
-            Delete
-          </button>
+      <div className={classes.groupOuter} key={id}>
+        <div
+          className={`${classes.groupInner} ${!groups.length && !conditions.length ? classes.emptyGroup : ''}`}
+        >
+          {renderHeader()}
+          {renderButtons()}
+          {renderCondtions()}
+          {renderNestedGroups()}
         </div>
+      </div>
+    );
+  };
 
-        <div>
-          <div className={classes.conditions}>
-            <button className={classes.addConditionButton} onClick={handleAddCondition}>
-              Add Conditon
-            </button>
-            {conditions.length ? (
-              conditions.map((condition) => <Condition id={condition.id} parentId={id} />)
-            ) : (
-              <p>No Conditions yet</p>
-            )}
-          </div>
-          {groups.map((childGroup) => (
+  const renderHeader = () => {
+    return (
+      <div className={classes.header}>
+        <select value={operator} onChange={changeGroupOperator}>
+          <option value={GroupOperators.And}>AND</option>
+          <option value={GroupOperators.Or}>OR</option>
+        </select>
+        <button
+          className={classes.deleteGroup}
+          onClick={handleDeleteGroup}
+          disabled={disableDelete}
+        >
+          Delete Group
+        </button>
+      </div>
+    );
+  };
+
+  const renderButtons = () => {
+    return (
+      <div className={classes.buttons}>
+        <button className={classes.addConditionButton} onClick={handleAddCondition}>
+          Add Conditon
+        </button>
+        <button className={classes.addGroupButton} onClick={handleAddGroup}>
+          Add Group
+        </button>
+      </div>
+    );
+  };
+
+  const renderCondtions = () => {
+    return (
+      <>
+        {conditions.length ? (
+          conditions.map((condition) => (
+            <div className={classes.treeNode}>
+              <Condition id={condition.id} parentId={id} />
+            </div>
+          ))
+        ) : (
+          <p>No Conditions yet</p>
+        )}
+      </>
+    );
+  };
+
+  const renderNestedGroups = () => {
+    return (
+      <>
+        {groups.map((childGroup) => (
+          <div className={classes.treeNode}>
             <Group
               id={childGroup.id}
               operator={childGroup.operator}
               groups={childGroup.groups}
               conditions={childGroup.conditions}
             />
-          ))}
-
-          <button className={classes.addGroupButton} onClick={handleAddGroup}>
-            Add Group
-          </button>
-        </div>
-      </div>
+          </div>
+        ))}
+      </>
     );
   };
 
@@ -54,22 +92,17 @@ export default function Group(props: GroupProps) {
     const { value } = e.target;
 
     setOperator(value as GroupOperatorType);
+
     updateGroup(id, {
       operator: value as GroupOperatorType,
     });
   };
 
-  const handleAddGroup = () => {
-    addGroup(id);
-  };
+  const handleAddGroup = () => addGroup(id);
 
-  const handleDeleteGroup = () => {
-    deleteGroup(id);
-  };
+  const handleDeleteGroup = () => deleteGroup(id);
 
-  const handleAddCondition = () => {
-    addCondition(id);
-  };
+  const handleAddCondition = () => addCondition(id);
 
   return render();
 }
