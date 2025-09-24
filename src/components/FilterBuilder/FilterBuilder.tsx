@@ -1,20 +1,26 @@
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Group from '../Group/Group';
-
+import JsonPreview from '../JsonPreview/JsonPreview';
+import classes from './FilterBuilder.module.css';
 export default function FilterBuilder() {
   const { data } = useFilterBuilderContext();
 
   return (
-    <div>
-      {data.map((group, index) => (
-        <Group
-          id={group.id}
-          operator={group.operator}
-          groups={group.groups}
-          conditions={group.conditions}
-          disableDelete={index === 0}
-        />
-      ))}
+    <div className={classes.filterBuilder}>
+      <div className={classes.left}>
+        {data.map((group, index) => (
+          <Group
+            id={group.id}
+            operator={group.operator}
+            groups={group.groups}
+            conditions={group.conditions}
+            disableDelete={index === 0}
+          />
+        ))}
+      </div>
+      <div className={classes.right}>
+        <JsonPreview />
+      </div>
     </div>
   );
 }

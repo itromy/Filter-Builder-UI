@@ -1,0 +1,19 @@
+@media screen and (min-width: 1000px) {
+  .filterBuilder {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .right,
+  .left {
+    flex: 1;
+    display: flex;
+  }
+
+  .right > *,
+  .left > * {
+    heigh: 100%;
+    width: 100%;
+  }
+}
