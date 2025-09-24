@@ -6,6 +6,10 @@
   margin-bottom: 20px;
 }
 
+.jer-editor-container {
+    max-width: 100%;
+}
+
 @media screen and (min-width: 1000px) {
   .filterBuilder {
     display: flex;

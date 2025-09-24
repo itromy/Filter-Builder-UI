@@ -9,12 +9,12 @@
 
 .groupInner:before {
   width: 3px;
-  height: calc(100% - 23px);
+  height: calc(100% - 30px);
   content: '';
   background: black;
   position: absolute;
   left: 12px;
-  top: 23px;
+  top: 30px;
   z-index: 1;
 }
 
@@ -25,6 +25,8 @@
 .header {
   margin-bottom: 10px;
   display: flex;
+  position: relative;
+  left: -10px;
 }
 
 .deleteGroup {
