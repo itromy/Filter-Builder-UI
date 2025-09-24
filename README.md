@@ -2,3 +2,21 @@
 
 ## Requirements
 * Node.js version 20.19+ or 22.12+
+
+## Install
+* via node package manager
+`npm i`
+
+## run the app
+`npm run dev`
+
+## run tests
+`npm run test`
+
+## Not Done
+
+* operators that need multiple values (between, in);
+* validation of conditions (g.e. age > 30 and age < 10>)
+* Get and Post mode
+* Advanced Accessibilty
+* Integration tests
