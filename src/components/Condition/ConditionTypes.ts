@@ -1,8 +1,3 @@
-export type ConditionProps = {
-  id: string;
-  parentId: string;
-};
-
 export type ConditionType = {
   id: string;
   parentId: string;

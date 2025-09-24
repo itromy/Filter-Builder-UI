@@ -1,18 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import classes from './Condition.module.css';
-import { type ConditionType, type ConditionProps } from './ConditionTypes';
+import { type ConditionType } from './ConditionTypes';
 
-export default function Condition(props: ConditionProps) {
-  const { id, parentId } = props;
+export default function Condition({ condition }: { condition: ConditionType }) {
   const { deleteCondition, fields, operators, updateCondition } = useFilterBuilderContext();
-  const [condition, setCondition] = useState<ConditionType>({
-    id: id,
-    parentId: parentId,
-    field: '',
-    value: '',
-    operator: '',
-  });
+  const [currentCondition, setCurrentCondition] = useState<ConditionType>(condition);
   const prevConditionRef = useRef<ConditionType | null>(null);
 
   useEffect(() => {
@@ -21,23 +14,21 @@ export default function Condition(props: ConditionProps) {
     // only trigger change when it really changed (avoid loop)
     if (
       !prevCondition ||
-      prevCondition.field !== condition.field ||
-      prevCondition.operator !== condition.operator ||
-      prevCondition.value !== condition.value
+      prevCondition.field !== currentCondition.field ||
+      prevCondition.operator !== currentCondition.operator ||
+      prevCondition.value !== currentCondition.value
     ) {
-      updateCondition(parentId, id, {
-        field: condition.field,
-        operator: condition.operator,
-        value: condition.value,
+      updateCondition(currentCondition.parentId, currentCondition.id, {
+        ...currentCondition,
       });
     }
 
-    prevConditionRef.current = condition;
+    prevConditionRef.current = currentCondition;
   });
 
   const render = () => {
     return (
-      <div key={id} className={classes.condition}>
+      <div key={currentCondition.id} className={classes.condition}>
         {renderField()}
         {renderOperator()}
         {renderValueFields()}
@@ -52,7 +43,7 @@ export default function Condition(props: ConditionProps) {
     return (
       <label>
         Field
-        <select onChange={handleChangeField}>
+        <select value={currentCondition.field} onChange={handleChangeField}>
           <option value="">Choose</option>
           {fields.map((field) => (
             <option key={field.value} value={field.value}>
@@ -65,21 +56,77 @@ export default function Condition(props: ConditionProps) {
   };
 
   const renderOperator = () => {
-    const isDisabled = condition.field === '';
-    const operators = getOperatorsForField(condition.field);
+    const isDisabled = currentCondition.field === '';
+    const availableOperators = getOperatorsForField(currentCondition.field);
 
-    // TODO: add labels for operators
     return (
       <label>
         Operator
-        <select disabled={isDisabled} onChange={handleChangeOperator}>
+        <select
+          disabled={isDisabled}
+          value={currentCondition.operator}
+          onChange={handleChangeOperator}
+        >
           <option value="">Choose</option>
-          {operators.map((operator) => (
-            <option value={operator}>{operator}</option>
+          {availableOperators.map((op) => (
+            <option key={op} value={op}>
+              {op}
+            </option>
           ))}
         </select>
       </label>
     );
+  };
+
+  const renderValueFields = () => {
+    const fieldObj = fields.find((f) => f.value === currentCondition.field);
+    if (!fieldObj) return null;
+
+    switch (fieldObj.type) {
+      case 'string':
+        return (
+          <input
+            type="text"
+            value={(currentCondition.value as string) || ''}
+            onChange={(e) => handleValueChange(e.target.value)}
+          />
+        );
+      case 'number':
+        return (
+          <input
+            type="number"
+            value={(currentCondition.value as number) || ''}
+            onChange={(e) => handleValueChange(Number(e.target.value))}
+          />
+        );
+      case 'date':
+        return (
+          <input
+            type="date"
+            value={(currentCondition.value as string) || ''}
+            onChange={(e) => handleValueChange(e.target.value)}
+          />
+        );
+      case 'boolean':
+        return (
+          <select
+            value={
+              currentCondition.value === true
+                ? 'true'
+                : currentCondition.value === false
+                  ? 'false'
+                  : ''
+            }
+            onChange={(e) => handleValueChange(e.target.value === 'true')}
+          >
+            <option value="">Choose</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        );
+      default:
+        return null;
+    }
   };
 
   const getOperatorsForField = (field: string): string[] => {
@@ -92,76 +139,25 @@ export default function Condition(props: ConditionProps) {
     return operators[fieldObj.type as keyof typeof operators] ?? [];
   };
 
-  const renderValueFields = () => {
-    const fieldObj = fields.find((f) => f.value === condition.field);
-    if (!fieldObj) return null;
-
-    const { type } = fieldObj;
-
-    switch (type) {
-      case 'string':
-        return (
-          <input
-            type="text"
-            value={(condition.value as string) || ''}
-            onChange={(e) => handleValueChange(e.target.value)}
-          />
-        );
-
-      case 'number':
-        return (
-          <input
-            type="number"
-            value={(condition.value as number) || ''}
-            onChange={(e) => handleValueChange(Number(e.target.value))}
-          />
-        );
-
-      case 'date':
-        return (
-          <input
-            type="date"
-            value={(condition.value as string) || ''}
-            onChange={(e) => handleValueChange(new Date(e.target.value))}
-          />
-        );
-
-      case 'boolean':
-        return (
-          <select
-            value={String(condition.value) || ''}
-            onChange={(e) => handleValueChange(e.target.value === 'true')}
-          >
-            <option value="">Choose</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        );
-
-      default:
-        return null;
-    }
-  };
-
   const handleChangeField = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCondition({
-      ...condition,
+    setCurrentCondition({
+      ...currentCondition,
       field: event.target.value,
     });
   };
 
   const handleChangeOperator = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCondition({
-      ...condition,
+    setCurrentCondition({
+      ...currentCondition,
       operator: event.target.value,
     });
   };
 
-  const handleDelete = () => deleteCondition(parentId, id);
+  const handleDelete = () => deleteCondition(currentCondition.parentId, currentCondition.id);
 
   const handleValueChange = (value: string | Date | boolean | number) => {
-    setCondition({
-      ...condition,
+    setCurrentCondition({
+      ...currentCondition,
       value,
     });
   };

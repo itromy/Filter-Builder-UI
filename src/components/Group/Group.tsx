@@ -1,12 +1,10 @@
-import { useState } from 'react';
 import { GroupOperators, type GroupOperatorType, type GroupProps } from './GroupTypes';
 import classes from './Group.module.css';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Condition from '../Condition/Condition';
 
 export default function Group(props: GroupProps) {
-  const { groups, id, conditions, disableDelete } = props;
-  const [operator, setOperator] = useState<GroupOperatorType>(GroupOperators.And);
+  const { groups, id, conditions, disableDelete, operator } = props;
   const { addGroup, deleteGroup, updateGroup, addCondition } = useFilterBuilderContext();
 
   const render = () => {
@@ -61,7 +59,7 @@ export default function Group(props: GroupProps) {
         {conditions.length ? (
           conditions.map((condition) => (
             <div className={classes.treeNode}>
-              <Condition id={condition.id} parentId={id} />
+              <Condition condition={condition} />
             </div>
           ))
         ) : (
@@ -90,8 +88,6 @@ export default function Group(props: GroupProps) {
 
   const changeGroupOperator = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
-
-    setOperator(value as GroupOperatorType);
 
     updateGroup(id, {
       operator: value as GroupOperatorType,

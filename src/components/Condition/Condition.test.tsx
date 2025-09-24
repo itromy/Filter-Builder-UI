@@ -7,7 +7,15 @@ describe('Condition Component', () => {
   it('renders the Delete button', () => {
     render(
       <FilterBuilderProvider>
-        <Condition id="1" parentId="root" />
+        <Condition
+          condition={{
+            id: 'cond-1',
+            parentId: 'parent-1',
+            field: 'age',
+            operator: 'equal',
+            value: '30',
+          }}
+        />
       </FilterBuilderProvider>
     );
 

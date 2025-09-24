@@ -6,6 +6,7 @@ import type { ConditionType } from '../components/Condition/ConditionTypes';
 
 export interface FilterBuilderContextType {
   data: GroupType[];
+  setData: (data: GroupType[]) => void;
   addGroup: (parentId: string) => void;
   deleteGroup: (deletedGroupId: string) => void;
   updateGroup: (id: string, updates: Partial<GroupType>) => void;

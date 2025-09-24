@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { GroupType } from '../components/Group/GroupTypes';
 import {
   getEmptyGroup,
@@ -19,10 +19,6 @@ import type { ConditionType } from '../components/Condition/ConditionTypes';
 
 const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<GroupType[]>([getEmptyGroup()]);
-
-  useEffect(() => {
-    console.log('data', data);
-  }, [data]);
 
   const addGroup = (parentId: string) => {
     setData((prev) => addGroupController(parentId, prev));
@@ -55,6 +51,7 @@ const FilterBuilderProvider = ({ children }: { children: ReactNode }) => {
     <FilterBuilderContext.Provider
       value={{
         data,
+        setData,
         addGroup,
         deleteGroup,
         updateGroup,
