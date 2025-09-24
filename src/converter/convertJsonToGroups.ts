@@ -3,13 +3,13 @@ import { GroupOperators, type GroupType } from '../components/Group/GroupTypes';
 import type { QueryGroup, Rule } from '../models/JSONResult';
 import { v4 as uuid } from 'uuid';
 
-export default function transformJsonToFilterGroups(json: QueryGroup): GroupType[] {
+export default function convertJsonToGroups(json: QueryGroup): GroupType[] {
   if (!json) return [];
 
-  return [_transformJsonGroup(json)];
+  return [_convertJsonGroup(json)];
 }
 
-function _transformJsonGroup(jsonGroup: QueryGroup): GroupType {
+function _convertJsonGroup(jsonGroup: QueryGroup): GroupType {
   let operator: GroupOperators;
   let items: (Rule | QueryGroup)[];
 
@@ -31,7 +31,7 @@ function _transformJsonGroup(jsonGroup: QueryGroup): GroupType {
     if (_isRule(item)) {
       conditions.push(_mapRuleToCondition(item as Rule, groupId));
     } else if (_isQueryGroup(item)) {
-      groups.push(_transformJsonGroup(item as QueryGroup));
+      groups.push(_convertJsonGroup(item as QueryGroup));
     } else {
       console.warn('Invalid item skipped', item);
     }

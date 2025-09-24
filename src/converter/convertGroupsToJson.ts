@@ -2,20 +2,20 @@ import type { ConditionType } from '../components/Condition/ConditionTypes';
 import type { GroupType } from '../components/Group/GroupTypes';
 import type { QueryGroup, Rule } from '../models/JSONResult';
 
-export function transformFilterGroupsToJson(groups: GroupType[]): QueryGroup | null {
+export default function convertGroupsToJson(groups: GroupType[]): QueryGroup | null {
   if (!groups || groups.length === 0) {
     return null;
   }
 
   // top level group
-  return _transformGroup(groups[0]);
+  return _convertGroup(groups[0]);
 }
 
-function _transformGroup(group: GroupType): QueryGroup {
+function _convertGroup(group: GroupType): QueryGroup {
   const rules: Rule[] = group.conditions.map(_mapConditionToRule);
 
-  // transform nested groups
-  const nestedGroups: QueryGroup[] = (group.groups || []).map((g) => _transformGroup(g));
+  // convert nested groups
+  const nestedGroups: QueryGroup[] = (group.groups || []).map((g) => _convertGroup(g));
 
   const items: (Rule | QueryGroup)[] = [...rules, ...nestedGroups];
 

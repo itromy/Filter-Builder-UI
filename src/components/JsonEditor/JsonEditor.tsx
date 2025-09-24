@@ -1,12 +1,12 @@
 import { JsonEditor as JsonEditReact } from 'json-edit-react';
-import { transformFilterGroupsToJson } from '../../controller/transformFilters';
+import convertGroupsToJson from '../../converter/convertGroupsToJson';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
-import transformJsonToFilterGroups from '../../controller/transformJson';
+import convertJsonToGroups from '../../converter/convertJsonToGroups';
 import type { QueryGroup } from '../../models/JSONResult';
 
 const JsonEditor = () => {
   const { data, setData } = useFilterBuilderContext();
-  const jsonData = transformFilterGroupsToJson(data);
+  const jsonData = convertGroupsToJson(data);
 
   // TODO: later edit single node, for now only whole tree
 
@@ -21,7 +21,7 @@ const JsonEditor = () => {
   );
 
   const handleRootChange = (newData: QueryGroup) => {
-    setData(transformJsonToFilterGroups(newData));
+    setData(convertJsonToGroups(newData));
   };
 
   return render();

@@ -1,7 +1,7 @@
 import type { GroupType } from '../components/Group/GroupTypes';
-import { transformFilterGroupsToJson } from './transformFilters';
+import convertGroupsToJson from './convertGroupsToJson';
 
-it('creates correct JSON for a single not nested group with one single condition', () => {
+it('converts to correct JSON for a single not nested group with one single condition', () => {
   const input: GroupType[] = [
     {
       id: 'group-1',
@@ -19,7 +19,7 @@ it('creates correct JSON for a single not nested group with one single condition
     },
   ];
 
-  const result = transformFilterGroupsToJson(input);
+  const result = convertGroupsToJson(input);
 
   const expected = {
     and: [
@@ -34,7 +34,7 @@ it('creates correct JSON for a single not nested group with one single condition
   expect(result).toEqual(expected);
 });
 
-it('creates correct JSON for a single not nested group with two single conditions', () => {
+it('converts to correct JSON for a single not nested group with two single conditions', () => {
   const input: GroupType[] = [
     {
       id: 'group-1',
@@ -59,7 +59,7 @@ it('creates correct JSON for a single not nested group with two single condition
     },
   ];
 
-  const result = transformFilterGroupsToJson(input);
+  const result = convertGroupsToJson(input);
 
   const expected = {
     and: [
@@ -79,7 +79,7 @@ it('creates correct JSON for a single not nested group with two single condition
   expect(result).toEqual(expected);
 });
 
-it('creates correct JSON for group with nested group', () => {
+it('converts to correct JSON for group with nested group', () => {
   const input: GroupType[] = [
     {
       id: 'group-1',
@@ -126,7 +126,7 @@ it('creates correct JSON for group with nested group', () => {
     },
   ];
 
-  const result = transformFilterGroupsToJson(input);
+  const result = convertGroupsToJson(input);
 
   const expected = {
     and: [

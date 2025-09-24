@@ -1,4 +1,4 @@
-import transformJsonToFilterGroups from './transformJson';
+import convertJsonToGroups from './convertJsonToGroups';
 import type { QueryGroup, Rule } from '../models/JSONResult';
 import { vi } from 'vitest';
 
@@ -16,7 +16,7 @@ beforeEach(() => {
 
 describe('transformJsonToFilterGroups', () => {
   it('returns empty array for null input', () => {
-    const result = transformJsonToFilterGroups(null);
+    const result = convertJsonToGroups(null);
 
     expect(result).toEqual([]);
   });
@@ -26,7 +26,7 @@ describe('transformJsonToFilterGroups', () => {
       and: [{ field: 'age', operator: 'greater_than', value: 30 } as Rule],
     };
 
-    const result = transformJsonToFilterGroups(input);
+    const result = convertJsonToGroups(input);
     expect(result).toEqual([
       {
         id: 'mocked-id-0',
@@ -55,7 +55,7 @@ describe('transformJsonToFilterGroups', () => {
       ],
     };
 
-    const result = transformJsonToFilterGroups(input);
+    const result = convertJsonToGroups(input);
     expect(result).toEqual([
       {
         id: 'mocked-id-0',
@@ -103,7 +103,7 @@ describe('transformJsonToFilterGroups', () => {
       ],
     };
 
-    const result = transformJsonToFilterGroups(json as QueryGroup);
+    const result = convertJsonToGroups(json as QueryGroup);
 
     expect(result).toEqual([
       {
@@ -125,8 +125,6 @@ describe('transformJsonToFilterGroups', () => {
 
   it('should throw error for invalid group', () => {
     const input = { foo: [] };
-    expect(() => transformJsonToFilterGroups(input as unknown as QueryGroup)).toThrow(
-      'Invalid JSON group'
-    );
+    expect(() => convertJsonToGroups(input as unknown as QueryGroup)).toThrow('Invalid JSON group');
   });
 });
