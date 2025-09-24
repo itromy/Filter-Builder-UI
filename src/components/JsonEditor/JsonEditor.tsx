@@ -1,16 +1,17 @@
-import { JsonEditor } from 'json-edit-react';
+import { JsonEditor as JsonEditReact } from 'json-edit-react';
 import { transformFilterGroupsToJson } from '../../controller/transformFilters';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import transformJsonToFilterGroups from '../../controller/transformJson';
+import type { QueryGroup } from '../../models/JSONResult';
 
-const JsonPreview = () => {
+const JsonEditor = () => {
   const { data, setData } = useFilterBuilderContext();
   const jsonData = transformFilterGroupsToJson(data);
 
   // TODO: later edit single node, for now only whole tree
 
   const render = () => (
-    <JsonEditor
+    <JsonEditReact
       restrictEdit={(keyPath) => keyPath.key !== 'root'}
       restrictDelete={true}
       restrictAdd={true}
@@ -19,11 +20,11 @@ const JsonPreview = () => {
     />
   );
 
-  const handleRootChange = (newData: unknown) => {
+  const handleRootChange = (newData: QueryGroup) => {
     setData(transformJsonToFilterGroups(newData));
   };
 
   return render();
 };
 
-export default JsonPreview;
+export default JsonEditor;

@@ -1,6 +1,6 @@
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Group from '../Group/Group';
-import JsonPreview from '../JsonPreview/JsonPreview';
+import JsonEditor from '../JsonEditor/JsonEditor';
 import classes from './FilterBuilder.module.css';
 export default function FilterBuilder() {
   const { data } = useFilterBuilderContext();
@@ -15,7 +15,7 @@ export default function FilterBuilder() {
           ))}
         </div>
         <div className={classes.right}>
-          <JsonPreview />
+          <JsonEditor />
         </div>
       </div>
     </div>
