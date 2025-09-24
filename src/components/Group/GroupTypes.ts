@@ -14,7 +14,7 @@ export type GroupType = {
   operator: GroupOperatorType;
 };
 
-export type GroupProps =  {
-    group: GroupType,
-    disableDelete?: boolean;
+export type GroupProps = {
+  group: GroupType;
+  disableDelete?: boolean;
 };
