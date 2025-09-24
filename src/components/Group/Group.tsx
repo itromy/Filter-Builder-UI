@@ -3,8 +3,8 @@ import classes from './Group.module.css';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Condition from '../Condition/Condition';
 
-export default function Group(props: GroupProps) {
-  const { groups, id, conditions, disableDelete, operator } = props;
+export default function Group({ group, disableDelete }: GroupProps) {
+  const { id, operator, groups, conditions } = group;
   const { addGroup, deleteGroup, updateGroup, addCondition } = useFilterBuilderContext();
 
   const render = () => {
@@ -15,7 +15,7 @@ export default function Group(props: GroupProps) {
         >
           {renderHeader()}
           {renderButtons()}
-          {renderCondtions()}
+          {renderConditions()}
           {renderNestedGroups()}
         </div>
       </div>
@@ -44,7 +44,7 @@ export default function Group(props: GroupProps) {
     return (
       <div className={classes.buttons}>
         <button className={classes.addConditionButton} onClick={handleAddCondition}>
-          Add Conditon
+          Add Condition
         </button>
         <button className={classes.addGroupButton} onClick={handleAddGroup}>
           Add Group
@@ -53,12 +53,12 @@ export default function Group(props: GroupProps) {
     );
   };
 
-  const renderCondtions = () => {
+  const renderConditions = () => {
     return (
       <>
         {conditions.length ? (
           conditions.map((condition) => (
-            <div className={classes.treeNode}>
+            <div className={classes.treeNode} key={condition.id}>
               <Condition condition={condition} />
             </div>
           ))
@@ -73,13 +73,8 @@ export default function Group(props: GroupProps) {
     return (
       <>
         {groups.map((childGroup) => (
-          <div className={classes.treeNode}>
-            <Group
-              id={childGroup.id}
-              operator={childGroup.operator}
-              groups={childGroup.groups}
-              conditions={childGroup.conditions}
-            />
+          <div className={classes.treeNode} key={childGroup.id}>
+            <Group group={childGroup} disableDelete={false} />
           </div>
         ))}
       </>
@@ -87,10 +82,8 @@ export default function Group(props: GroupProps) {
   };
 
   const changeGroupOperator = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-
     updateGroup(id, {
-      operator: value as GroupOperatorType,
+      operator: e.target.value as GroupOperatorType,
     });
   };
 

@@ -10,10 +10,8 @@ export default function FilterBuilder() {
       <div className={classes.left}>
         {data.map((group, index) => (
           <Group
-            id={group.id}
-            operator={group.operator}
-            groups={group.groups}
-            conditions={group.conditions}
+            key={group.id}
+            group={group}
             disableDelete={index === 0}
           />
         ))}
