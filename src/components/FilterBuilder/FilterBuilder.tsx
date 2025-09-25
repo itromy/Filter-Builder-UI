@@ -1,3 +1,4 @@
+import React from 'react';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Group from '../Group/Group';
 import JsonEditor from '../JsonEditor/JsonEditor';

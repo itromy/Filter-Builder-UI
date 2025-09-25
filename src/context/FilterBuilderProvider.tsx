@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import type { GroupType } from '../components/Group/GroupTypes';
 import {
   getEmptyGroup,

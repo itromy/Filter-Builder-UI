@@ -1,8 +1,8 @@
-import { GroupOperators, type GroupOperatorType, type GroupProps } from './GroupTypes';
+import { type GroupOperatorType, type GroupProps } from './GroupTypes';
 import classes from './Group.module.css';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import Condition from '../Condition/Condition';
-
+import React from 'react';
 export default function Group({ group, disableDelete }: GroupProps) {
   const { id, operator, groups, conditions } = group;
   const { addGroup, deleteGroup, updateGroup, addCondition } = useFilterBuilderContext();
@@ -26,8 +26,8 @@ export default function Group({ group, disableDelete }: GroupProps) {
     return (
       <div className={classes.header}>
         <select value={operator} onChange={changeGroupOperator}>
-          <option value={GroupOperators.And}>AND</option>
-          <option value={GroupOperators.Or}>OR</option>
+          <option value="and">AND</option>
+          <option value="or">OR</option>
         </select>
         <button
           className={classes.deleteGroup}

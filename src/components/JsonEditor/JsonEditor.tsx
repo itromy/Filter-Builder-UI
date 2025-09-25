@@ -1,8 +1,9 @@
+import React from 'react';
 import { JsonEditor as JsonEditReact } from 'json-edit-react';
 import convertGroupsToJson from '../../converter/convertGroupsToJson';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import convertJsonToGroups from '../../converter/convertJsonToGroups';
-import type { QueryGroup } from '../../models/JSONResult';
+import type { QueryGroup } from '../../models/JsonResult';
 
 const JsonEditor = () => {
   const { data, setData } = useFilterBuilderContext();
@@ -20,8 +21,9 @@ const JsonEditor = () => {
     />
   );
 
-  const handleRootChange = (newData: QueryGroup) => {
-    setData(convertJsonToGroups(newData));
+  const handleRootChange = (newData: unknown) => {
+    const groupData = newData as QueryGroup;
+    setData(convertJsonToGroups(groupData));
   };
 
   return render();

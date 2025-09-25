@@ -1,23 +1,23 @@
 import type { ConditionType } from '../components/Condition/ConditionTypes';
-import { GroupOperators, type GroupType } from '../components/Group/GroupTypes';
-import type { QueryGroup, Rule } from '../models/JSONResult';
+import { type GroupOperatorType, type GroupType } from '../components/Group/GroupTypes';
+import type { QueryGroup, Rule } from '../models/JsonResult';
 import { v4 as uuid } from 'uuid';
 
-export default function convertJsonToGroups(json: QueryGroup): GroupType[] {
+export default function convertJsonToGroups(json: QueryGroup | null): GroupType[] {
   if (!json) return [];
 
   return [_convertJsonGroup(json)];
 }
 
 function _convertJsonGroup(jsonGroup: QueryGroup): GroupType {
-  let operator: GroupOperators;
+  let operator: GroupOperatorType;
   let items: (Rule | QueryGroup)[];
 
   if ('and' in jsonGroup) {
-    operator = GroupOperators.And;
+    operator = 'and';
     items = jsonGroup.and;
   } else if ('or' in jsonGroup) {
-    operator = GroupOperators.Or;
+    operator = 'or';
     items = jsonGroup.or;
   } else {
     throw new Error('Invalid JSON group');

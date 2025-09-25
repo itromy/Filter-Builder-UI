@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type JSX } from 'react';
+import React, { useEffect, useRef, useState, type JSX } from 'react';
 import { useFilterBuilderContext } from '../../context/FilterBuilderHook';
 import classes from './Condition.module.css';
 import { type ConditionType } from './ConditionTypes';

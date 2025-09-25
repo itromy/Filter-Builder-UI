@@ -1,6 +1,6 @@
 import convertJsonToGroups from './convertJsonToGroups';
-import type { QueryGroup, Rule } from '../models/JSONResult';
-import { vi } from 'vitest';
+import type { QueryGroup, Rule } from '../models/JsonResult';
+import { vi, beforeEach, describe, expect, it } from 'vitest';
 
 let counter = 0;
 vi.mock('uuid', () => {

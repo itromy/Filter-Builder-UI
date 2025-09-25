@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import { GroupOperators, type GroupType } from '../components/Group/GroupTypes';
+import { type GroupType } from '../components/Group/GroupTypes';
 
 export const getEmptyGroup = (): GroupType => ({
   id: uuid(),
   groups: [],
   conditions: [],
-  operator: GroupOperators.And,
+  operator: 'and',
 });
 
 export const addGroup = (parentId: string, data: GroupType[]): GroupType[] => {

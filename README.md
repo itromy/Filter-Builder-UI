@@ -18,5 +18,8 @@
 * operators that need multiple values (between, in);
 * validation of conditions (g.e. age > 30 and age < 10>)
 * Get and Post mode
+* no integration tests
 * Advanced Accessibilty
-* Integration tests
+* not repsonsive optimized
+* it only works with the fields and operators that are given in the config folder
+

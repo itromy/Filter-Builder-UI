@@ -1,11 +1,6 @@
 import type { ConditionType } from '../Condition/ConditionTypes';
 
-export type GroupOperatorType = `${GroupOperators}`;
-
-export enum GroupOperators {
-  And = 'and',
-  Or = 'or',
-}
+export type GroupOperatorType = 'and' | 'or';
 
 export type GroupType = {
   id: string;

@@ -1,6 +1,7 @@
 import { getEmptyCondition, addCondition, deleteCondition, updateCondition } from './conditions';
 import type { GroupType } from '../components/Group/GroupTypes';
 import type { ConditionType } from '../components/Condition/ConditionTypes';
+import { vi, beforeEach, describe, it, expect } from 'vitest';
 
 let counter = 0;
 

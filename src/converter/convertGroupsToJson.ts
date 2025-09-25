@@ -1,6 +1,6 @@
 import type { ConditionType } from '../components/Condition/ConditionTypes';
 import type { GroupType } from '../components/Group/GroupTypes';
-import type { QueryGroup, Rule } from '../models/JSONResult';
+import type { QueryGroup, Rule } from '../models/JsonResult';
 
 export default function convertGroupsToJson(groups: GroupType[]): QueryGroup | null {
   if (!groups || groups.length === 0) {

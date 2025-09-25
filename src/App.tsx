@@ -1,3 +1,4 @@
+import React from 'react';
 import FilterBuilder from './components/FilterBuilder/FilterBuilder';
 import FilterBuilderProvider from './context/FilterBuilderProvider';
 
